@@ -1,15 +1,15 @@
 # RestfullSpringBoot
 # Simple restfull server application
 
-#Available endpoints: 
-#api/customers (get, post)
-#api/customers/{customerId} (get, put, delete)
-
-#api/customers/{customerId}/emails (get, post) 
-#api/customers/{customerId}/emails/{emailId} (put, delete)
-
-#api/customers/{customerId}/addresses (get, post)
-#api/customers/{customerId}/addresses/{addressId} (put, delete)
-
-#api/customers/{customerId}/phoneNumbers (get, post)
-#api/customers/{customerId}/phoneNumbers/{numberId} (put, delete)  
+Available endpoints:<br/> 
+api/customers (get, post)<br/>
+api/customers/{customerId} (get, put, delete)<br/>
+<br/>
+api/customers/{customerId}/emails (get, post)<br/> 
+api/customers/{customerId}/emails/{emailId} (put, delete)<br/>
+<br/>
+api/customers/{customerId}/addresses (get, post)<br/>
+api/customers/{customerId}/addresses/{addressId} (put, delete)<br/>
+<br/>
+api/customers/{customerId}/phoneNumbers (get, post)<br/>
+api/customers/{customerId}/phoneNumbers/{numberId} (put, delete)<br/>  
