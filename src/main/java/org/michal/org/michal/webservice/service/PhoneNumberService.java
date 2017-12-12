@@ -12,11 +12,11 @@ public interface PhoneNumberService {
 
     PhoneNumber findOne(Long id);
 
-    PhoneNumber create(Long customerId, PhoneNumber phoneNumber);
+    PhoneNumber createNumberForCustomerId(Long customerId, PhoneNumber phoneNumber);
 
-    PhoneNumber update(Long customerId, PhoneNumber phoneNumber);
+    PhoneNumber updateNumberByCustomerId(Long customerId, PhoneNumber phoneNumber);
 
-    boolean delete(Long customerId,Long numberId);
+    boolean deleteNumberByCustomerId(Long customerId,Long numberId);
 
     void deleteCustomerAll(Long customerId);
 }

@@ -16,8 +16,12 @@ import java.util.Collection;
 @RestController
 public class AddressController {
 
-    @Autowired
     private AddressService addressService;
+
+    @Autowired
+    public AddressController(AddressService addressService){
+        this.addressService = addressService;
+    }
 
     @RequestMapping(
             value = "/api/customers/{customerId}/addresses",
@@ -40,8 +44,8 @@ public class AddressController {
             consumes = MediaType.APPLICATION_JSON_VALUE
     )
     public ResponseEntity<Address> createAddress(
-            @RequestBody Address address, @PathVariable("customerId") Long id){
-        Address newAddress = addressService.create(id, address);
+            @RequestBody Address address, @PathVariable("customerId") Long customerId){
+        Address newAddress = addressService.createAddressForCustomerId(customerId, address);
         if(newAddress == null) return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
         return new ResponseEntity<>(newAddress, HttpStatus.CREATED);
     }
@@ -57,7 +61,7 @@ public class AddressController {
             @RequestBody Address address, @PathVariable("customerId") Long customerId,
             @PathVariable("addressId") Long addressId){
         address.setId(addressId);
-        Address updatedAddress = addressService.update(customerId, address);
+        Address updatedAddress = addressService.updateAddressByCustomerId(customerId, address);
         if(updatedAddress == null)
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         return new ResponseEntity<>(updatedAddress, HttpStatus.OK);
@@ -70,7 +74,7 @@ public class AddressController {
     )
     public ResponseEntity<Address> deleteAddress(
             @PathVariable("customerId") Long customerId, @PathVariable("addressId") Long addressId){
-        if(addressService.delete(customerId, addressId))
+        if(addressService.deleteAddressByCustomerId(customerId, addressId))
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }

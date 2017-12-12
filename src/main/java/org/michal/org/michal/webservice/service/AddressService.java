@@ -13,11 +13,11 @@ public interface AddressService {
 
     Address findOne(Long id);
 
-    Address create(Long customerId, Address address);
+    Address createAddressForCustomerId(Long customerId, Address address);
 
-    Address update(Long customerId, Address address);
+    Address updateAddressByCustomerId(Long customerId, Address address);
 
-    boolean delete(Long customerId, Long addressId);
+    boolean deleteAddressByCustomerId(Long customerId, Long addressId);
 
     void deleteCustomerAll(Long customerId);
 }

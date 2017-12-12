@@ -39,7 +39,7 @@ public class CustomerServiceBean implements CustomerService {
     }
 
     @Override
-    public Customer create(Customer customer) {
+    public Customer createCustomer(Customer customer) {
         if(!validate(customer) || customer.getId() != null)
             return null;
 
@@ -47,7 +47,7 @@ public class CustomerServiceBean implements CustomerService {
     }
 
     @Override
-    public Customer update(Customer customer) {
+    public Customer updateCustomer(Customer customer) {
         if(!validate(customer))
             return null;
 
@@ -59,7 +59,7 @@ public class CustomerServiceBean implements CustomerService {
     }
 
     @Override
-    public void delete(Long id) {
+    public void deleteCustomer(Long id) {
         if(!customerRepository.exists(id)) return;
         emailService.deleteCustomerAll(id);
         addressService.deleteCustomerAll(id);

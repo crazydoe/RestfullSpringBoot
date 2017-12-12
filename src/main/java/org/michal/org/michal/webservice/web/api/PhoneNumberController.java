@@ -31,7 +31,7 @@ public class PhoneNumberController {
     public ResponseEntity<Iterable<PhoneNumber>> getCustomerPhoneNumbers(
             @PathVariable("customerId") Long customerId){
         Iterable<PhoneNumber> numbers = numberService.findByCustomerId(customerId);
-        if(numbers == null )
+        if(numbers == null)
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         return new ResponseEntity<>(numbers, HttpStatus.OK);
     }
@@ -44,9 +44,10 @@ public class PhoneNumberController {
             consumes = MediaType.APPLICATION_JSON_VALUE
     )
     public ResponseEntity<PhoneNumber> createPhoneNumber(
-            @RequestBody PhoneNumber number, @PathVariable("customerId") Long id){
-        PhoneNumber newNumber = numberService.create(id, number);
-        if(newNumber == null) return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
+            @RequestBody PhoneNumber number, @PathVariable("customerId") Long customerId){
+        PhoneNumber newNumber = numberService.createNumberForCustomerId(customerId, number);
+        if(newNumber == null)
+            return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
         return new ResponseEntity<>(newNumber, HttpStatus.CREATED);
     }
 
@@ -61,8 +62,8 @@ public class PhoneNumberController {
             @RequestBody PhoneNumber number, @PathVariable("customerId") Long customerId,
             @PathVariable("numberId") Long numberId){
                 number.setId(numberId);
-                PhoneNumber updatedNumber= numberService.update(customerId, number);
-                if(updatedNumber== null)
+                PhoneNumber updatedNumber= numberService.updateNumberByCustomerId(customerId, number);
+                if(updatedNumber == null)
                     return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
                 return new ResponseEntity<>(updatedNumber, HttpStatus.OK);
     }
@@ -74,7 +75,7 @@ public class PhoneNumberController {
     )
     public ResponseEntity<EmailAddress> deletePhoneNumber(
             @PathVariable("customerId") Long customerId, @PathVariable("numberId") Long numberId){
-        if(numberService.delete(customerId, numberId))
+        if(numberService.deleteNumberByCustomerId(customerId, numberId))
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }

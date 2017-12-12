@@ -46,7 +46,7 @@ public class EmailController {
     )
     public ResponseEntity<EmailAddress> createEmail(
             @RequestBody EmailAddress email, @PathVariable("customerId") Long customerId){
-        EmailAddress newEmail = emailService.create(customerId, email);
+        EmailAddress newEmail = emailService.createEmailForCustomerId(customerId, email);
         if(newEmail == null) return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
         return new ResponseEntity<>(newEmail, HttpStatus.CREATED);
     }
@@ -62,7 +62,7 @@ public class EmailController {
             @RequestBody EmailAddress email, @PathVariable("customerId") Long customerId,
             @PathVariable("emailId") Long emailId){
                 email.setId(emailId);
-                EmailAddress updatedEmail = emailService.update(customerId, email);
+                EmailAddress updatedEmail = emailService.updateEmailByCustomerId(customerId, email);
                 if(updatedEmail == null)
                     return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
                 return new ResponseEntity<>(updatedEmail, HttpStatus.OK);
@@ -75,7 +75,7 @@ public class EmailController {
     )
     public ResponseEntity<EmailAddress> deleteEmail(
             @PathVariable("customerId") Long customerId, @PathVariable("emailId") Long emailId){
-        if(emailService.delete(customerId, emailId))
+        if(emailService.deleteEmailByCustomerId(customerId, emailId))
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }

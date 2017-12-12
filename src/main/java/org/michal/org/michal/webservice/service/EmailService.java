@@ -14,11 +14,11 @@ public interface EmailService {
 
     EmailAddress findOne(Long id);
 
-    EmailAddress create(Long customerId, EmailAddress email);
+    EmailAddress createEmailForCustomerId(Long customerId, EmailAddress email);
 
-    EmailAddress update(Long customerId, EmailAddress email);
+    EmailAddress updateEmailByCustomerId(Long customerId, EmailAddress email);
 
-    boolean delete(Long customerId, Long emailId);
+    boolean deleteEmailByCustomerId(Long customerId, Long emailId);
 
     void deleteCustomerAll(Long customerId);
 }

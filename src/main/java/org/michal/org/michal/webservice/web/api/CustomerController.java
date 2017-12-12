@@ -55,8 +55,7 @@ public class CustomerController {
                 )
         );
 
-        return new ResponseEntity<>(
-                customerResponses, HttpStatus.OK);
+        return new ResponseEntity<>(customerResponses, HttpStatus.OK);
     }
 
 
@@ -70,14 +69,14 @@ public class CustomerController {
 
         if(customer == null) return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
-        CustomerResponse customerEmail = new CustomerResponse(
+        CustomerResponse customerResponse = new CustomerResponse(
                 customer,
                 emailService.findByCustomerId(customer.getId()),
                 numberService.findByCustomerId(customer.getId()),
                 addressService.findByCustomerId(customer.getId())
                 );
 
-        return new ResponseEntity<>(customerEmail, HttpStatus.OK);
+        return new ResponseEntity<>(customerResponse, HttpStatus.OK);
     }
 
 
@@ -88,8 +87,9 @@ public class CustomerController {
             consumes = MediaType.APPLICATION_JSON_VALUE
     )
     public ResponseEntity<Customer> createCustomer(@RequestBody Customer customer){
-         Customer newCustomer = customerService.create(customer);
-         if(newCustomer == null) return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
+         Customer newCustomer = customerService.createCustomer(customer);
+         if(newCustomer == null)
+             return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
          return new ResponseEntity<>(newCustomer, HttpStatus.CREATED);
     }
 
@@ -102,8 +102,9 @@ public class CustomerController {
     )
     public ResponseEntity<Customer> updateCustomer(@RequestBody Customer customer, @PathVariable("id") Long id){
         customer.setId(id);
-        Customer updatedCustomer = customerService.update(customer);
-        if(updatedCustomer == null) return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        Customer updatedCustomer = customerService.updateCustomer(customer);
+        if(updatedCustomer == null)
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         else return new ResponseEntity<>(updatedCustomer, HttpStatus.OK);
     }
 
@@ -114,7 +115,7 @@ public class CustomerController {
     )
     public ResponseEntity<Customer> deleteCustomer(@PathVariable("id") Long id){
 
-        customerService.delete(id);
+        customerService.deleteCustomer(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

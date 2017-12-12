@@ -1,7 +1,5 @@
 package org.michal.org.michal.webservice.service;
 
-import org.hibernate.validator.constraints.Email;
-import org.michal.org.michal.webservice.model.Address;
 import org.michal.org.michal.webservice.model.EmailAddress;
 import org.michal.org.michal.webservice.repository.CustomerRepository;
 import org.michal.org.michal.webservice.repository.EmailRepository;
@@ -48,7 +46,7 @@ public class EmailServiceBean implements EmailService{
     }
 
     @Override
-    public EmailAddress create(Long customerId, EmailAddress email) {
+    public EmailAddress createEmailForCustomerId(Long customerId, EmailAddress email) {
         if(!validate(email) || customerRepository.findOne(customerId) == null){
             return null;
         }
@@ -57,7 +55,7 @@ public class EmailServiceBean implements EmailService{
     }
 
     @Override
-    public EmailAddress update(Long customerId, EmailAddress email) {
+    public EmailAddress updateEmailByCustomerId(Long customerId, EmailAddress email) {
         if(!validate(email) || customerRepository.findOne(customerId) == null
                 || emailRepository.findOne(email.getId()) == null){
             return null;
@@ -68,7 +66,7 @@ public class EmailServiceBean implements EmailService{
     }
 
     @Override
-    public boolean delete(Long customerId, Long emailId) {
+    public boolean deleteEmailByCustomerId(Long customerId, Long emailId) {
         if(customerRepository.findOne(customerId) == null || !emailRepository.exists(emailId))
             return false;
 
