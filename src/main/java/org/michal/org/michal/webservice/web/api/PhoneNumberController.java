@@ -47,7 +47,7 @@ public class PhoneNumberController {
             @RequestBody PhoneNumber number, @PathVariable("customerId") Long customerId){
         PhoneNumber newNumber = numberService.createNumberForCustomerId(customerId, number);
         if(newNumber == null)
-            return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         return new ResponseEntity<>(newNumber, HttpStatus.CREATED);
     }
 

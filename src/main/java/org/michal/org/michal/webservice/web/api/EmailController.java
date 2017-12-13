@@ -47,7 +47,7 @@ public class EmailController {
     public ResponseEntity<EmailAddress> createEmail(
             @RequestBody EmailAddress email, @PathVariable("customerId") Long customerId){
         EmailAddress newEmail = emailService.createEmailForCustomerId(customerId, email);
-        if(newEmail == null) return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
+        if(newEmail == null) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         return new ResponseEntity<>(newEmail, HttpStatus.CREATED);
     }
 

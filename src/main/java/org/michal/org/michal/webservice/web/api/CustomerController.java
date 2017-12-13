@@ -86,7 +86,7 @@ public class CustomerController {
     public ResponseEntity<Customer> createCustomer(@RequestBody Customer customer){
          Customer newCustomer = customerService.createCustomer(customer);
          if(newCustomer == null)
-             return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
+             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
          return new ResponseEntity<>(newCustomer, HttpStatus.CREATED);
     }
 
