@@ -46,7 +46,7 @@ public class AddressController {
     public ResponseEntity<Address> createAddress(
             @RequestBody Address address, @PathVariable("customerId") Long customerId){
         Address newAddress = addressService.createAddressForCustomerId(customerId, address);
-        if(newAddress == null) return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
+        if(newAddress == null) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         return new ResponseEntity<>(newAddress, HttpStatus.CREATED);
     }
 
