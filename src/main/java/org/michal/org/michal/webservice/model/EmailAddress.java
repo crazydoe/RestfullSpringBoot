@@ -19,29 +19,33 @@ public class EmailAddress {
     private Long customerId;
     private String emailAddress;
 
-    public EmailAddress() {}
-
-    public Long getCustomerId() {
-        return customerId;
-    }
-
-    public void setCustomerId(Long customerId) {
-        this.customerId = customerId;
-    }
-
-    public String getEmailAddress() {
-        return emailAddress;
-    }
-
-    public void setEmailAddress(String emailAdress) {
-        this.emailAddress = emailAdress;
+    public EmailAddress() {
     }
 
     public Long getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public EmailAddress setId(Long id) {
         this.id = id;
+        return this;
+    }
+
+    public Long getCustomerId() {
+        return customerId;
+    }
+
+    public EmailAddress setCustomerId(Long customerId) {
+        this.customerId = customerId;
+        return this;
+    }
+
+    public String getEmailAddress() {
+        return emailAddress;
+    }
+
+    public EmailAddress setEmailAddress(String emailAddress) {
+        this.emailAddress = emailAddress;
+        return this;
     }
 }

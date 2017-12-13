@@ -25,7 +25,7 @@ public class CustomerServiceBean implements CustomerService {
         this.numberService = numberService;
         this.addressService = addressService;
         this.emailService = emailService;
-        this. customerRepository = customerRepository;
+        this.customerRepository = customerRepository;
     }
 
     @Override

@@ -17,29 +17,35 @@ public class Address {
     private Long customerId;
     private String address;
 
-    public Address() {}
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public Long getCustomerId() {
-        return customerId;
-    }
-
-    public void setCustomerId(Long customerId) {
-        this.customerId = customerId;
+    public Address() {
     }
 
     public Long getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public Address setId(Long id) {
         this.id = id;
+        return this;
     }
+
+    public Long getCustomerId() {
+        return customerId;
+    }
+
+    public Address setCustomerId(Long customerId) {
+        this.customerId = customerId;
+        return this;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public Address setAddress(String address) {
+        this.address = address;
+        return this;
+    }
+
+
 }

@@ -19,29 +19,33 @@ public class PhoneNumber {
     private Long customerId;
     private String phoneNumber;
 
-    public PhoneNumber() {}
-
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-
-    public Long getCustomerId() {
-        return customerId;
-    }
-
-    public void setCustomerId(Long customerId) {
-        this.customerId = customerId;
+    public PhoneNumber() {
     }
 
     public Long getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public PhoneNumber setId(Long id) {
         this.id = id;
+        return this;
+    }
+
+    public Long getCustomerId() {
+        return customerId;
+    }
+
+    public PhoneNumber setCustomerId(Long customerId) {
+        this.customerId = customerId;
+        return this;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public PhoneNumber setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+        return this;
     }
 }

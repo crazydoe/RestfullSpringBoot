@@ -80,4 +80,5 @@ public class AddressServiceBean implements AddressService{
     private boolean validate(Address address){
         return(address != null && address.getAddress() != null);
     }
+
 }

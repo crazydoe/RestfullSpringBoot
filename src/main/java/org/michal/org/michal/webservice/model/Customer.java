@@ -18,39 +18,46 @@ public class Customer {
     private String surname;
     private String gender;
 
-    public Customer(){
+    public Customer() {
     }
 
     public Long getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public Customer setId(Long id) {
         this.id = id;
+        return this;
     }
 
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
+    public Customer setName(String name) {
         this.name = name;
+        return this;
     }
 
     public String getSurname() {
         return surname;
     }
 
-    public void setSurname(String surname) {
+    public Customer setSurname(String surname) {
         this.surname = surname;
+        return this;
     }
 
     public String getGender() {
         return gender;
     }
 
-    public void setGender(String gender) {
+    public Customer setGender(String gender) {
         this.gender = gender;
+        return this;
     }
 }
+
+
+
 

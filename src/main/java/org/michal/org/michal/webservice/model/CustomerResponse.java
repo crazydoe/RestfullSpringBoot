@@ -15,70 +15,76 @@ public class CustomerResponse {
     private Collection<PhoneNumber> phoneNumbers;
     private Collection<Address> addresses;
 
-    public CustomerResponse(Customer customer, Collection<EmailAddress> emails,
-                            Collection<PhoneNumber> phoneNumbers, Collection<Address> addresses) {
+    public CustomerResponse(Customer customer) {
         this.id = customer.getId();
         this.gender = customer.getGender();
         this.surname = customer.getSurname();
         this.name = customer.getName();
-        this.emails = emails;
-        this.phoneNumbers = phoneNumbers;
-        this.addresses = addresses;
     }
 
-    public Collection<PhoneNumber> getPhoneNumbers() {
-        return phoneNumbers;
-    }
-
-    public void setPhoneNumbers(Collection<PhoneNumber> phoneNumbers) {
-        this.phoneNumbers = phoneNumbers;
-    }
-
-    public Collection<Address> getAddresses() {
-        return addresses;
-    }
-
-    public void setAddresses(Collection<Address> addresses) {
-        this.addresses = addresses;
-    }
-
-    public Collection<EmailAddress> getEmails() {
-        return emails;
-    }
-
-    public void setEmails(Collection<EmailAddress> emails) {
-        this.emails = emails;
+    public CustomerResponse() {
     }
 
     public Long getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public CustomerResponse setId(Long id) {
         this.id = id;
+        return this;
     }
 
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
+    public CustomerResponse setName(String name) {
         this.name = name;
+        return this;
     }
 
     public String getSurname() {
         return surname;
     }
 
-    public void setSurname(String surname) {
+    public CustomerResponse setSurname(String surname) {
         this.surname = surname;
+        return this;
     }
 
     public String getGender() {
         return gender;
     }
 
-    public void setGender(String gender) {
+    public CustomerResponse setGender(String gender) {
         this.gender = gender;
+        return this;
+    }
+
+    public Collection<EmailAddress> getEmails() {
+        return emails;
+    }
+
+    public CustomerResponse setEmails(Collection<EmailAddress> emails) {
+        this.emails = emails;
+        return this;
+    }
+
+    public Collection<PhoneNumber> getPhoneNumbers() {
+        return phoneNumbers;
+    }
+
+    public CustomerResponse setPhoneNumbers(Collection<PhoneNumber> phoneNumbers) {
+        this.phoneNumbers = phoneNumbers;
+        return this;
+    }
+
+    public Collection<Address> getAddresses() {
+        return addresses;
+    }
+
+    public CustomerResponse setAddresses(Collection<Address> addresses) {
+        this.addresses = addresses;
+        return this;
     }
 }

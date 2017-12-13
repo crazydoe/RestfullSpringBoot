@@ -47,11 +47,10 @@ public class CustomerController {
         Collection<CustomerResponse> customerResponses = new ArrayList<>();
 
         customers.forEach(customer -> customerResponses.add(
-                new CustomerResponse(
-                        customer,
-                        emailService.findByCustomerId(customer.getId()),
-                        numberService.findByCustomerId(customer.getId()),
-                        addressService.findByCustomerId(customer.getId()))
+                new CustomerResponse(customer)
+                        .setEmails(emailService.findByCustomerId(customer.getId()))
+                        .setAddresses(addressService.findByCustomerId(customer.getId()))
+                        .setPhoneNumbers(numberService.findByCustomerId(customer.getId()))
                 )
         );
 
@@ -69,12 +68,10 @@ public class CustomerController {
 
         if(customer == null) return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
-        CustomerResponse customerResponse = new CustomerResponse(
-                customer,
-                emailService.findByCustomerId(customer.getId()),
-                numberService.findByCustomerId(customer.getId()),
-                addressService.findByCustomerId(customer.getId())
-                );
+        CustomerResponse customerResponse = new CustomerResponse(customer)
+                .setEmails(emailService.findByCustomerId(customer.getId()))
+                .setAddresses(addressService.findByCustomerId(customer.getId()))
+                .setPhoneNumbers(numberService.findByCustomerId(customer.getId()));
 
         return new ResponseEntity<>(customerResponse, HttpStatus.OK);
     }
