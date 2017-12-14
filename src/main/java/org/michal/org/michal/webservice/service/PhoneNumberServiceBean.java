@@ -46,7 +46,7 @@ public class PhoneNumberServiceBean implements PhoneNumberService {
 
     @Override
     public PhoneNumber createNumberForCustomerId(Long customerId, PhoneNumber phoneNumber) {
-        if(!validate(phoneNumber) || customerRepository.findOne(customerId) == null)
+        if(!validate(phoneNumber) || !customerRepository.exists(customerId))
             return null;
 
         phoneNumber.setCustomerId(customerId);
@@ -55,8 +55,8 @@ public class PhoneNumberServiceBean implements PhoneNumberService {
 
     @Override
     public PhoneNumber updateNumberByCustomerId(Long customerId, PhoneNumber phoneNumber){
-        if(!validate(phoneNumber) || customerRepository.findOne(customerId) == null
-                || phoneNumberRepository.findOne(phoneNumber.getId()) == null){
+        if(!validate(phoneNumber) || !customerRepository.exists(customerId)
+                || !phoneNumberRepository.exists(phoneNumber.getId())){
             return null;
         }
         phoneNumber.setCustomerId(customerId);
@@ -65,7 +65,7 @@ public class PhoneNumberServiceBean implements PhoneNumberService {
 
     @Override
     public boolean deleteNumberByCustomerId(Long customerId, Long numberId) {
-        if(customerRepository.findOne(customerId) == null || !phoneNumberRepository.exists(numberId))
+        if(!customerRepository.exists(customerId) || !phoneNumberRepository.exists(numberId))
             return false;
 
         phoneNumberRepository.delete(numberId);

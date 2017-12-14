@@ -47,7 +47,7 @@ public class EmailServiceBean implements EmailService{
 
     @Override
     public EmailAddress createEmailForCustomerId(Long customerId, EmailAddress email) {
-        if(!validate(email) || customerRepository.findOne(customerId) == null){
+        if(!validate(email) || !customerRepository.exists(customerId)){
             return null;
         }
         email.setCustomerId(customerId);
@@ -56,8 +56,8 @@ public class EmailServiceBean implements EmailService{
 
     @Override
     public EmailAddress updateEmailByCustomerId(Long customerId, EmailAddress email) {
-        if(!validate(email) || customerRepository.findOne(customerId) == null
-                || emailRepository.findOne(email.getId()) == null){
+        if(!validate(email) || !customerRepository.exists(customerId)
+                || !emailRepository.exists(email.getId())){
             return null;
         }
         email.setCustomerId(customerId);
@@ -67,7 +67,7 @@ public class EmailServiceBean implements EmailService{
 
     @Override
     public boolean deleteEmailByCustomerId(Long customerId, Long emailId) {
-        if(customerRepository.findOne(customerId) == null || !emailRepository.exists(emailId))
+        if(!customerRepository.exists(customerId) || !emailRepository.exists(emailId))
             return false;
 
         emailRepository.delete(emailId);

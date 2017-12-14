@@ -47,7 +47,7 @@ public class AddressServiceBean implements AddressService{
 
     @Override
     public Address createAddressForCustomerId(Long customerId, Address address) {
-        if(!validate(address) || customerRepository.findOne(customerId) == null)
+        if(!validate(address) || !customerRepository.exists(customerId))
             return null;
         address.setCustomerId(customerId);
         return addressRepository.save(address);
@@ -55,8 +55,8 @@ public class AddressServiceBean implements AddressService{
 
     @Override
     public Address updateAddressByCustomerId(Long customerId, Address address) {
-        if(!validate(address) || customerRepository.findOne(customerId) == null
-                || addressRepository.findOne(address.getId()) == null){
+        if(!validate(address) || !customerRepository.exists(customerId)
+                || !addressRepository.exists(address.getId())){
             return null;
         }
         address.setCustomerId(customerId);
@@ -65,7 +65,7 @@ public class AddressServiceBean implements AddressService{
 
     @Override
     public boolean deleteAddressByCustomerId(Long customerId, Long addressId) {
-        if(customerRepository.findOne(customerId) == null || !addressRepository.exists(addressId))
+        if(!customerRepository.exists(customerId) || !addressRepository.exists(addressId))
             return false;
         addressRepository.delete(addressId);
         return true;
