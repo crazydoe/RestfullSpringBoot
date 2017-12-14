@@ -35,8 +35,6 @@ public class CustomerServiceBean implements CustomerService {
     @Override
     public Collection<CustomerResponse> findAll() {
         Iterable<Customer> customers = customerRepository.findAll();
-        if(customers == null ) return null;
-
         Collection<CustomerResponse> customerResponses = new ArrayList<>();
         customers.forEach(customer -> customerResponses.add(
                 new CustomerResponse(customer)

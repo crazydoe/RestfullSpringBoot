@@ -44,7 +44,6 @@ public class CustomerController {
     )
     public ResponseEntity<Collection<CustomerResponse>> getCustomers(){
         Collection<CustomerResponse> customers = customerService.findAll();
-        if(customers == null) return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         return new ResponseEntity<>(customers, HttpStatus.OK);
     }
 
