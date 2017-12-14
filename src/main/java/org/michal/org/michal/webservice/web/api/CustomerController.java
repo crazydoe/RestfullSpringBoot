@@ -112,7 +112,8 @@ public class CustomerController {
     )
     public ResponseEntity<Customer> deleteCustomer(@PathVariable("id") Long id){
 
-        customerService.deleteCustomer(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        if(customerService.deleteCustomer(id))
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 }

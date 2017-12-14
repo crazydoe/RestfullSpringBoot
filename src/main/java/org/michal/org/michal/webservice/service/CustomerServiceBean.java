@@ -59,12 +59,14 @@ public class CustomerServiceBean implements CustomerService {
     }
 
     @Override
-    public void deleteCustomer(Long id) {
-        if(!customerRepository.exists(id)) return;
+    public boolean deleteCustomer(Long id) {
+        if(!customerRepository.exists(id))
+            return false;
         emailService.deleteCustomerAll(id);
         addressService.deleteCustomerAll(id);
         numberService.deleteCustomerAll(id);
         customerRepository.delete(id);
+        return true;
     }
 
     private boolean validate(Customer customer){
