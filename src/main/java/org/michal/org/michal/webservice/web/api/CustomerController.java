@@ -43,18 +43,9 @@ public class CustomerController {
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     public ResponseEntity<Collection<CustomerResponse>> getCustomers(){
-        Iterable<Customer> customers = customerService.findAll();
-        Collection<CustomerResponse> customerResponses = new ArrayList<>();
-
-        customers.forEach(customer -> customerResponses.add(
-                new CustomerResponse(customer)
-                        .setEmails(emailService.findByCustomerId(customer.getId()))
-                        .setAddresses(addressService.findByCustomerId(customer.getId()))
-                        .setPhoneNumbers(numberService.findByCustomerId(customer.getId()))
-                )
-        );
-
-        return new ResponseEntity<>(customerResponses, HttpStatus.OK);
+        Collection<CustomerResponse> customers = customerService.findAll();
+        if(customers == null) return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(customers, HttpStatus.OK);
     }
 
 
@@ -64,16 +55,9 @@ public class CustomerController {
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     public ResponseEntity<CustomerResponse> getCustomer(@PathVariable("id") Long id){
-        Customer customer = customerService.findOne(id);
-
+        CustomerResponse customer = customerService.findOne(id);
         if(customer == null) return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-
-        CustomerResponse customerResponse = new CustomerResponse(customer)
-                .setEmails(emailService.findByCustomerId(customer.getId()))
-                .setAddresses(addressService.findByCustomerId(customer.getId()))
-                .setPhoneNumbers(numberService.findByCustomerId(customer.getId()));
-
-        return new ResponseEntity<>(customerResponse, HttpStatus.OK);
+        return new ResponseEntity<>(customer, HttpStatus.OK);
     }
 
 
@@ -85,8 +69,7 @@ public class CustomerController {
     )
     public ResponseEntity<Customer> createCustomer(@RequestBody Customer customer){
          Customer newCustomer = customerService.createCustomer(customer);
-         if(newCustomer == null)
-             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+         if(newCustomer == null) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
          return new ResponseEntity<>(newCustomer, HttpStatus.CREATED);
     }
 
@@ -100,8 +83,7 @@ public class CustomerController {
     public ResponseEntity<Customer> updateCustomer(@RequestBody Customer customer, @PathVariable("id") Long id){
         customer.setId(id);
         Customer updatedCustomer = customerService.updateCustomer(customer);
-        if(updatedCustomer == null)
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        if(updatedCustomer == null) return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         else return new ResponseEntity<>(updatedCustomer, HttpStatus.OK);
     }
 
@@ -111,7 +93,6 @@ public class CustomerController {
             method = RequestMethod.DELETE
     )
     public ResponseEntity<Customer> deleteCustomer(@PathVariable("id") Long id){
-
         if(customerService.deleteCustomer(id))
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);

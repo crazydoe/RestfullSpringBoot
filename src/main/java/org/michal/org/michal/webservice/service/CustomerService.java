@@ -1,6 +1,9 @@
 package org.michal.org.michal.webservice.service;
 
 import org.michal.org.michal.webservice.model.Customer;
+import org.michal.org.michal.webservice.model.CustomerResponse;
+
+import java.util.Collection;
 
 
 /**
@@ -8,9 +11,9 @@ import org.michal.org.michal.webservice.model.Customer;
  */
 public interface CustomerService {
 
-    Iterable<Customer> findAll();
+    Collection<CustomerResponse> findAll();
 
-    Customer findOne(Long id);
+    CustomerResponse findOne(Long id);
 
     Customer createCustomer(Customer customer);
 

@@ -1,9 +1,13 @@
 package org.michal.org.michal.webservice.service;
 
 import org.michal.org.michal.webservice.model.Customer;
+import org.michal.org.michal.webservice.model.CustomerResponse;
 import org.michal.org.michal.webservice.repository.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.Collection;
 
 
 /**
@@ -29,13 +33,31 @@ public class CustomerServiceBean implements CustomerService {
     }
 
     @Override
-    public Iterable<Customer> findAll() {
-        return customerRepository.findAll();
+    public Collection<CustomerResponse> findAll() {
+        Iterable<Customer> customers = customerRepository.findAll();
+        if(customers == null ) return null;
+
+        Collection<CustomerResponse> customerResponses = new ArrayList<>();
+        customers.forEach(customer -> customerResponses.add(
+                new CustomerResponse(customer)
+                        .setEmails(emailService.findByCustomerId(customer.getId()))
+                        .setAddresses(addressService.findByCustomerId(customer.getId()))
+                        .setPhoneNumbers(numberService.findByCustomerId(customer.getId()))
+                )
+        );
+
+        return customerResponses;
     }
 
     @Override
-    public Customer findOne(Long id) {
-        return customerRepository.findOne(id);
+    public CustomerResponse findOne(Long id) {
+        Customer customer = customerRepository.findOne(id);
+        if(customer != null)
+            return new CustomerResponse(customer)
+                .setEmails(emailService.findByCustomerId(customer.getId()))
+                .setAddresses(addressService.findByCustomerId(customer.getId()))
+                .setPhoneNumbers(numberService.findByCustomerId(customer.getId()));
+        return null;
     }
 
     @Override
@@ -48,11 +70,7 @@ public class CustomerServiceBean implements CustomerService {
 
     @Override
     public Customer updateCustomer(Customer customer) {
-        if(!validate(customer))
-            return null;
-
-        Customer customerPersisted = findOne(customer.getId());
-        if(customerPersisted == null)
+        if(!validate(customer) || !customerRepository.exists(customer.getId()))
             return null;
 
         return customerRepository.save(customer);
