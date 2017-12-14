@@ -6,6 +6,7 @@ import org.junit.Test;
 import org.michal.org.michal.webservice.model.Customer;
 import org.testng.Assert;
 
+
 import static com.jayway.restassured.RestAssured.given;
 
 /**
@@ -14,21 +15,25 @@ import static com.jayway.restassured.RestAssured.given;
 
 public class CustomerResponseTest extends FunctionalTest{
 
+    private Long customerId;
+
+
     @Test
-    public void CreateCustomer_CorrectCustomerDataAsBody_201Created() {
+    public void PushCustomer_CorrectCustomerDataAsBody_201Created() {
         Customer customer = new Customer()
-                .setGender("male")
-                .setName("Maniek")
-                .setSurname("Testowy");
+                .setGender("test")
+                .setName("Customer")
+                .setSurname("Test");
 
         Response response = given()
                 .when().contentType(ContentType.JSON)
                 .body(customer).post("/api/customers");
         Assert.assertEquals(response.getStatusCode(), 201);
+        customerId = response.as(Customer.class).getId();
     }
 
     @Test
-    public void CreateCustomer_EmptyDataAsBody_400BadRequest(){
+    public void PushCustomer_EmptyDataAsBody_400BadRequest(){
         Response response = given()
                 .when().contentType(ContentType.JSON)
                 .body(new Customer()).post("/api/customers");
@@ -36,7 +41,7 @@ public class CustomerResponseTest extends FunctionalTest{
     }
 
     @Test
-    public void GetCustomers_URLRequest_200OK(){
+    public void GetAllCustomers_URLRequest_200OK(){
         Response response = given()
                 .when().contentType(ContentType.JSON)
                 .get("/api/customers");
@@ -47,7 +52,7 @@ public class CustomerResponseTest extends FunctionalTest{
     public void GetCustomer_CustomerIdInURLPath_200OK(){
         Response response = given()
                 .when().contentType(ContentType.JSON)
-                .get("/api/customers/1");
+                .get("/api/customers/"+customerId);
         Assert.assertEquals(response.getStatusCode(), 200);
     }
 
@@ -59,6 +64,65 @@ public class CustomerResponseTest extends FunctionalTest{
         Assert.assertEquals(response.getStatusCode(), 404);
     }
 
-    
+
+    @Test
+    public void PutCustomer_CorrectCustomerIdInPath_200OkAndUpdatedResponseInBody(){
+        Customer customer = new Customer()
+                .setGender("test")
+                .setName("Customer")
+                .setSurname("TestPut");
+
+        Response response = given()
+                .when().contentType(ContentType.JSON)
+                .body(customer).put("/api/customers/"+customerId);
+        Assert.assertEquals(response.getStatusCode(), 200);
+        Assert.assertEquals(response.as(Customer.class).getSurname(), customer.getSurname());
+    }
+
+    @Test
+    public void PutCustomer_CorrectCustomerIdEmptyBody_500InternalServerError(){
+        Response response = given()
+                .when().contentType(ContentType.JSON)
+                .body(new Customer()).put("/api/customers/0");
+        Assert.assertEquals(response.getStatusCode(), 500);
+    }
+
+    @Test
+    public void PutCustomer_IncorrectCustomerIdInPath_500InternalServerError(){
+        Customer customer = new Customer()
+                .setGender("test")
+                .setName("Customer")
+                .setSurname("TestPut");
+
+        Response response = given()
+                .when().contentType(ContentType.JSON)
+                .body(customer).put("/api/customers/0");
+        Assert.assertEquals(response.getStatusCode(), 500);
+    }
+
+    @Test
+    public void DeleteCustomer_IncorrectCustomerIdInPath_404NotFound(){
+        Response response = given()
+                .when()
+                .delete("/api/customers/0");
+        Assert.assertEquals(response.getStatusCode(), 404);
+    }
+
+    @Test
+    public void DeleteCustomer_CorrectCustomerIdInPath_204NoContent(){
+        Response response = given()
+                .when()
+                .delete("/api/customers/"+customerId);
+        Assert.assertEquals(response.getStatusCode(), 204);
+    }
+
+
+
+
+
+
+
+
+
 
 }
