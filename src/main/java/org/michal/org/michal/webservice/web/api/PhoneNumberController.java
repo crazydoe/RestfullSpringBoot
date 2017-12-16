@@ -61,11 +61,11 @@ public class PhoneNumberController {
     public ResponseEntity<PhoneNumber> updatePhoneNumber(
             @RequestBody PhoneNumber number, @PathVariable("customerId") Long customerId,
             @PathVariable("numberId") Long numberId){
-                number.setId(numberId);
-                PhoneNumber updatedNumber= numberService.updateNumberByCustomerId(customerId, number);
-                if(updatedNumber == null)
-                    return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-                return new ResponseEntity<>(updatedNumber, HttpStatus.OK);
+        number.setId(numberId);
+        PhoneNumber updatedNumber= numberService.updateNumberByCustomerId(customerId, number);
+        if(updatedNumber == null)
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(updatedNumber, HttpStatus.OK);
     }
 
 
@@ -77,6 +77,6 @@ public class PhoneNumberController {
             @PathVariable("customerId") Long customerId, @PathVariable("numberId") Long numberId){
         if(numberService.deleteNumberByCustomerId(customerId, numberId))
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 }

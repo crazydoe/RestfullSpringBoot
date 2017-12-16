@@ -27,6 +27,7 @@ public class PhoneNumberServiceBean implements PhoneNumberService {
 
     @Override
     public Collection<PhoneNumber> findByCustomerId(Long customerId) {
+        if(!customerRepository.exists(customerId)) return null;
         Iterable<PhoneNumber> numbers = phoneNumberRepository.findAll();
 
         Collection<PhoneNumber> customerNumbers = new ArrayList<>();

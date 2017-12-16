@@ -27,10 +27,12 @@ public class AddressServiceBean implements AddressService{
 
 
     @Override
-    public Collection<Address> findByCustomerId(final Long customerId) {
+    public Collection<Address> findByCustomerId(Long customerId) {
+        if(!customerRepository.exists(customerId)) return null;
+
         Iterable<Address> addresses = addressRepository.findAll();
 
-        final Collection<Address> customerAddresses = new ArrayList<>();
+        Collection<Address> customerAddresses = new ArrayList<>();
 
         addresses.forEach(address -> {
             if(address.getCustomerId().equals(customerId))

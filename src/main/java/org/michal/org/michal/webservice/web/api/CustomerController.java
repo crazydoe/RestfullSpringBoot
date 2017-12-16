@@ -23,17 +23,11 @@ import java.util.Collection;
 public class CustomerController {
 
     private CustomerService customerService;
-    private EmailService emailService;
-    private AddressService addressService;
-    private PhoneNumberService numberService;
+
 
     @Autowired
-    public CustomerController(CustomerService customerService, EmailService emailService,
-                              AddressService addressService, PhoneNumberService numberService){
+    public CustomerController(CustomerService customerService){
         this.customerService = customerService;
-        this.emailService = emailService;
-        this.addressService = addressService;
-        this.numberService = numberService;
     }
 
 
@@ -82,7 +76,7 @@ public class CustomerController {
     public ResponseEntity<Customer> updateCustomer(@RequestBody Customer customer, @PathVariable("id") Long id){
         customer.setId(id);
         Customer updatedCustomer = customerService.updateCustomer(customer);
-        if(updatedCustomer == null) return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        if(updatedCustomer == null) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         else return new ResponseEntity<>(updatedCustomer, HttpStatus.OK);
     }
 

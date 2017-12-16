@@ -28,6 +28,7 @@ public class EmailServiceBean implements EmailService{
 
     @Override
     public Collection<EmailAddress> findByCustomerId(Long customerId) {
+        if(!customerRepository.exists(customerId)) return null;
         Iterable<EmailAddress> emails = emailRepository.findAll();
 
         Collection<EmailAddress> customerEmails = new ArrayList<>();

@@ -61,11 +61,11 @@ public class EmailController {
     public ResponseEntity<EmailAddress> updateEmail(
             @RequestBody EmailAddress email, @PathVariable("customerId") Long customerId,
             @PathVariable("emailId") Long emailId){
-                email.setId(emailId);
-                EmailAddress updatedEmail = emailService.updateEmailByCustomerId(customerId, email);
-                if(updatedEmail == null)
-                    return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-                return new ResponseEntity<>(updatedEmail, HttpStatus.OK);
+        email.setId(emailId);
+        EmailAddress updatedEmail = emailService.updateEmailByCustomerId(customerId, email);
+        if(updatedEmail == null)
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(updatedEmail, HttpStatus.OK);
     }
 
 
@@ -77,6 +77,6 @@ public class EmailController {
             @PathVariable("customerId") Long customerId, @PathVariable("emailId") Long emailId){
         if(emailService.deleteEmailByCustomerId(customerId, emailId))
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 }

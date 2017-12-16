@@ -30,7 +30,7 @@ public class AddressController {
     )
     public ResponseEntity<Collection<Address>> getCustomerAddresses(
             @PathVariable("customerId") Long customerId){
-        Collection<Address> addresses= addressService.findByCustomerId(customerId);
+        Collection<Address> addresses = addressService.findByCustomerId(customerId);
         if(addresses == null)
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         return new ResponseEntity<>(addresses, HttpStatus.OK);
@@ -63,7 +63,7 @@ public class AddressController {
         address.setId(addressId);
         Address updatedAddress = addressService.updateAddressByCustomerId(customerId, address);
         if(updatedAddress == null)
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         return new ResponseEntity<>(updatedAddress, HttpStatus.OK);
     }
 
@@ -76,7 +76,7 @@ public class AddressController {
             @PathVariable("customerId") Long customerId, @PathVariable("addressId") Long addressId){
         if(addressService.deleteAddressByCustomerId(customerId, addressId))
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
 }
