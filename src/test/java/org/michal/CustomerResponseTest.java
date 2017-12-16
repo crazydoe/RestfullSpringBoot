@@ -1,11 +1,17 @@
 package org.michal;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.type.CollectionType;
+import com.fasterxml.jackson.databind.type.TypeFactory;
 import com.jayway.restassured.http.ContentType;
 import com.jayway.restassured.response.Response;
 import org.junit.Test;
 import org.michal.org.michal.webservice.model.Customer;
+import org.michal.org.michal.webservice.model.CustomerResponse;
 import org.testng.Assert;
 
+import java.io.IOException;
+import java.util.List;
 
 import static com.jayway.restassured.RestAssured.given;
 
@@ -15,11 +21,8 @@ import static com.jayway.restassured.RestAssured.given;
 
 public class CustomerResponseTest extends FunctionalTest{
 
-    private Long customerId;
-
-
     @Test
-    public void PushCustomer_CorrectCustomerDataAsBody_201Created() {
+    public void PushCustomer_CorrectCustomerDataAsBody_201CreatedAndNewCustomerRetrieved() {
         Customer customer = new Customer()
                 .setGender("test")
                 .setName("Customer")
@@ -28,8 +31,16 @@ public class CustomerResponseTest extends FunctionalTest{
         Response response = given()
                 .when().contentType(ContentType.JSON)
                 .body(customer).post("/api/customers");
+
         Assert.assertEquals(response.getStatusCode(), 201);
-        customerId = response.as(Customer.class).getId();
+
+        CustomerResponse receivedCustomer = response.as(CustomerResponse.class);
+
+        Assert.assertNotNull(receivedCustomer.getId());
+        Assert.assertEquals(customer.getName(), receivedCustomer.getName());
+        Assert.assertEquals(customer.getSurname(), receivedCustomer.getSurname());
+        Assert.assertEquals(customer.getGender(), receivedCustomer.getGender());
+
     }
 
     @Test
@@ -41,19 +52,50 @@ public class CustomerResponseTest extends FunctionalTest{
     }
 
     @Test
-    public void GetAllCustomers_URLRequest_200OK(){
+    public void GetAllCustomers_URLRequest_200OKAndAllCustomersRetrieved(){
         Response response = given()
                 .when().contentType(ContentType.JSON)
                 .get("/api/customers");
         Assert.assertEquals(response.getStatusCode(), 200);
+
+        System.out.println(response.getBody().asString());
+        List<CustomerResponse> receivedCustomers = customersResponseToList(
+                response.getBody().asString()
+        );
+
+        assert receivedCustomers != null;
+        receivedCustomers.forEach(customerResponse -> {
+            Assert.assertNotNull(customerResponse.getId());
+        });
+
     }
 
+    private List<CustomerResponse> customersResponseToList(String json){
+        ObjectMapper mapper = new ObjectMapper();
+        try{
+            TypeFactory factory = mapper.getTypeFactory();
+            CollectionType collectionType = factory.constructCollectionType(
+                    List.class, CustomerResponse.class);
+            return mapper.readValue(json, collectionType);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+
     @Test
-    public void GetCustomer_CustomerIdInURLPath_200OK(){
+    public void GetCustomer_CustomerIdInURLPath_200OKAndCustomerRetrieved(){
         Response response = given()
                 .when().contentType(ContentType.JSON)
-                .get("/api/customers/"+customerId);
+                .get("/api/customers/"+testCustomer.getId());
+        CustomerResponse retrievedCustomer = response.as(CustomerResponse.class);
+
         Assert.assertEquals(response.getStatusCode(), 200);
+        Assert.assertNotNull(retrievedCustomer.getId());
+        Assert.assertEquals(testCustomer.getName(), retrievedCustomer.getName());
+        Assert.assertEquals(testCustomer.getGender(), retrievedCustomer.getGender());
+        Assert.assertEquals(testCustomer.getSurname(), retrievedCustomer.getSurname());
     }
 
     @Test
@@ -64,9 +106,8 @@ public class CustomerResponseTest extends FunctionalTest{
         Assert.assertEquals(response.getStatusCode(), 404);
     }
 
-
     @Test
-    public void PutCustomer_CorrectCustomerIdInPath_200OkAndUpdatedResponseInBody(){
+    public void PutCustomer_CorrectCustomerIdInPath_200OkAndUpdatedCustomerRetrieved(){
         Customer customer = new Customer()
                 .setGender("test")
                 .setName("Customer")
@@ -74,7 +115,7 @@ public class CustomerResponseTest extends FunctionalTest{
 
         Response response = given()
                 .when().contentType(ContentType.JSON)
-                .body(customer).put("/api/customers/"+customerId);
+                .body(customer).put("/api/customers/"+testCustomer.getId());
         Assert.assertEquals(response.getStatusCode(), 200);
         Assert.assertEquals(response.as(Customer.class).getSurname(), customer.getSurname());
     }
@@ -112,17 +153,9 @@ public class CustomerResponseTest extends FunctionalTest{
     public void DeleteCustomer_CorrectCustomerIdInPath_204NoContent(){
         Response response = given()
                 .when()
-                .delete("/api/customers/"+customerId);
+                .delete("/api/customers/"+testCustomer.getId());
         Assert.assertEquals(response.getStatusCode(), 204);
     }
-
-
-
-
-
-
-
-
 
 
 }

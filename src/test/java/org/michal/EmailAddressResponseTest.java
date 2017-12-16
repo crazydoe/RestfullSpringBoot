@@ -11,7 +11,7 @@ import static com.jayway.restassured.RestAssured.given;
 /**
  * Created by michal on 13.12.2017.
  */
-public class EmailAddressTest extends FunctionalTest {
+public class EmailAddressResponseTest extends FunctionalTest {
 
     @Test
     public void CreateEmailAddress_CustomerIdAsPathValueAndEmailInBody_201Created(){
@@ -20,7 +20,7 @@ public class EmailAddressTest extends FunctionalTest {
 
         Response response = given()
                 .when().contentType(ContentType.JSON)
-                .body(emailAddress).post("/api/customers/1/emails");
+                .body(emailAddress).post("/api/customers/" +testCustomer.getId() + "/emails");
         Assert.assertEquals(response.getStatusCode(), 201);
 
     }

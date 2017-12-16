@@ -11,7 +11,7 @@ import static com.jayway.restassured.RestAssured.given;
 /**
  * Created by michal on 13.12.2017.
  */
-public class PhoneNumberTest extends FunctionalTest{
+public class PhoneNumberResponseTest extends FunctionalTest{
 
     @Test
     public void CreatePhoneNumber_CustomerIdAsPathValueAndNumberInBody_201Created(){
@@ -20,7 +20,7 @@ public class PhoneNumberTest extends FunctionalTest{
 
         Response response = given()
                 .when().contentType(ContentType.JSON)
-                .body(phoneNumber).post("/api/customers/1/phoneNumbers");
+                .body(phoneNumber).post("/api/customers/" +testCustomer.getId() + "/phoneNumbers");
         Assert.assertEquals(response.getStatusCode(), 201);
     }
 

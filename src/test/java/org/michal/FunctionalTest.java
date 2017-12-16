@@ -1,12 +1,23 @@
 package org.michal;
 
 import com.jayway.restassured.RestAssured;
+import com.jayway.restassured.http.ContentType;
+import com.jayway.restassured.response.Response;
+import org.junit.After;
+import org.junit.Before;
+import org.michal.org.michal.webservice.model.Customer;
+import org.michal.org.michal.webservice.model.CustomerResponse;
+import org.michal.org.michal.webservice.web.api.CustomerController;
 import org.testng.annotations.BeforeTest;
+
+import static com.jayway.restassured.RestAssured.given;
 
 /**
  * Created by michal on 13.12.2017.
  */
 public class FunctionalTest {
+
+    protected CustomerResponse testCustomer;
 
     @BeforeTest
     public static void setup(){
@@ -25,5 +36,23 @@ public class FunctionalTest {
         if(baseHost==null) baseHost = "http://localhost/api";
 
         RestAssured.baseURI = baseHost;
+    }
+
+    @Before
+    public void DatabaseSetup() {
+        Customer customer = new Customer()
+                .setGender("test")
+                .setName("Customer")
+                .setSurname("Test");
+
+        Response response = given()
+                .when().contentType(ContentType.JSON)
+                .body(customer).post("/api/customers");
+        testCustomer = response.as(CustomerResponse.class);
+    }
+
+    @After
+    public void CleanDatabase(){
+        given().when().delete("/api/customers/"+testCustomer.getId());
     }
 }

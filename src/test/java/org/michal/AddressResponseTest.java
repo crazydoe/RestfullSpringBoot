@@ -20,7 +20,7 @@ public class AddressResponseTest extends FunctionalTest{
 
         Response response = given()
                 .when().contentType(ContentType.JSON)
-                .body(address).post("/api/customers/1/addresses");
+                .body(address).post("/api/customers/" +testCustomer.getId() + "/addresses");
         Assert.assertEquals(response.getStatusCode(), 201);
     }
 }
