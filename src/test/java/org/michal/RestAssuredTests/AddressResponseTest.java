@@ -1,10 +1,9 @@
-package org.michal;
+package org.michal.RestAssuredTests;
 
 import com.jayway.restassured.http.ContentType;
 import com.jayway.restassured.response.Response;
 import org.junit.Test;
 import org.michal.org.michal.webservice.model.Address;
-import org.springframework.http.ResponseEntity;
 import org.testng.Assert;
 
 import java.io.IOException;

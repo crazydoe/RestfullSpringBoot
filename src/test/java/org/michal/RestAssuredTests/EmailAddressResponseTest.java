@@ -1,8 +1,7 @@
-package org.michal;
+package org.michal.RestAssuredTests;
 
 import com.jayway.restassured.http.ContentType;
 import com.jayway.restassured.response.Response;
-import org.hibernate.validator.constraints.Email;
 import org.junit.Test;
 import org.michal.org.michal.webservice.model.EmailAddress;
 import org.testng.Assert;

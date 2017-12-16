@@ -1,4 +1,4 @@
-package org.michal;
+package org.michal.RestAssuredTests;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.CollectionType;

@@ -1,4 +1,4 @@
-package org.michal;
+package org.michal.RestAssuredTests;
 
 import com.jayway.restassured.http.ContentType;
 import com.jayway.restassured.response.Response;
