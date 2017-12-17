@@ -4,6 +4,11 @@ import java.util.Collection;
 
 /**
  * Created by michal on 06.12.2017.
+ *
+ * Yes, I know that I could design entities in such a way that I would not have to create this class..
+ * Unfortunately, I found out about it too late..
+ * Next time I will use the annotations @manytoone and @onetomany...sorry
+ *
  */
 
 public class CustomerResponse {

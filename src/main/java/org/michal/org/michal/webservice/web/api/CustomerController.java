@@ -26,9 +26,10 @@ public class CustomerController {
 
 
     @Autowired
-    public CustomerController(CustomerService customerService){
+    public CustomerController(CustomerService customerService) {
         this.customerService = customerService;
     }
+
 
 
     @RequestMapping(
@@ -76,7 +77,7 @@ public class CustomerController {
     public ResponseEntity<Customer> updateCustomer(@RequestBody Customer customer, @PathVariable("id") Long id){
         customer.setId(id);
         Customer updatedCustomer = customerService.updateCustomer(customer);
-        if(updatedCustomer == null) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        if(updatedCustomer == null) return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         else return new ResponseEntity<>(updatedCustomer, HttpStatus.OK);
     }
 
