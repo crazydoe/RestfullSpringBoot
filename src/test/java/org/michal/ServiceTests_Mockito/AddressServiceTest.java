@@ -1,4 +1,4 @@
-package org.michal.MockitoTests;
+package org.michal.ServiceTests_Mockito;
 
 
 import org.junit.Assert;
@@ -23,7 +23,7 @@ import static org.mockito.Mockito.when;
  */
 
 @RunWith(MockitoJUnitRunner.class)
-public class AddressControllerTestMock {
+public class AddressServiceTest {
 
     @Mock
     private CustomerRepository customerRepositoryMocked;
@@ -64,36 +64,36 @@ public class AddressControllerTestMock {
     }
 
     @Test
-    public void GetAddresses_SpecifiedCustomer_CollectionOfCustomers() throws Exception{
+    public void FindByCustomerId_SpecifiedCustomer_CollectionOfCustomers() throws Exception{
         Assert.assertEquals(addressService.findByCustomerId(1L).size(), 2);
         Assert.assertEquals(addressService.findByCustomerId(2L).size(), 1);
     }
 
     @Test
-    public void GetAddresses_WronglySpecifiedCustomer_EmptyCollection(){
+    public void FindByCustomerId_WronglySpecifiedCustomer_EmptyCollection(){
         Assert.assertNull(addressService.findByCustomerId(0L));
     }
 
     @Test
-    public void DeleteAddress_SpecifiedCustomerAndAddressId_ReturnedTrue(){
+    public void DeleteAddressByCustomerId_SpecifiedCustomerAndAddressId_ReturnedTrue(){
         Assert.assertEquals(addressService
                 .deleteAddressByCustomerId(1L,1L), true);
     }
 
     @Test
-    public void DeleteAddress_WronglySpecifiedCustomerId_ReturnedFalse(){
+    public void DeleteAddressByCustomerId_WronglySpecifiedCustomerId_ReturnedFalse(){
         Assert.assertEquals(addressService
                 .deleteAddressByCustomerId(0L,1L), false);
     }
 
     @Test
-    public void DeleteAddress_WronglySpecifiedAddressId_ReturnedFalse(){
+    public void DeleteAddressByCustomerId_WronglySpecifiedAddressId_ReturnedFalse(){
         Assert.assertEquals(addressService
                 .deleteAddressByCustomerId(1L,0L), false);
     }
 
     @Test
-    public void PostAddress_SpecifiedCustomerId_CreatedAddressObject(){
+    public void CreateAddressForCustomerId_SpecifiedCustomerId_CreatedAddressObject(){
         Address expected = new Address().setAddress("testSave").setCustomerId(2L).setId(4L);
         when(addressRepositoryMocked.save(Mockito.any(Address.class))).thenReturn(expected);
 
@@ -102,7 +102,7 @@ public class AddressControllerTestMock {
     }
 
     @Test
-    public void PostAddress_WrongCustomerId_ShouldReturnNull(){
+    public void CreateAddressForCustomerId_WrongCustomerId_ShouldReturnNull(){
         Address address = new Address().setAddress("testSave");
 
         when(addressRepositoryMocked
@@ -114,7 +114,7 @@ public class AddressControllerTestMock {
     }
 
     @Test
-    public void PostAddress_EmptyBody_ShouldReturnNull(){
+    public void CreateAddressForCustomerId_EmptyObject_ShouldReturnNull(){
         when(addressRepositoryMocked
                 .save(Mockito.any(Address.class)))
                 .thenReturn(Mockito.any(Address.class));
@@ -123,7 +123,7 @@ public class AddressControllerTestMock {
     }
 
     @Test
-    public void PutAddress_SpecifiedCustomerIdAndAddressId_ShouldReturnUpdatedObject() {
+    public void UpdateAddressByCustomerId_SpecifiedCustomerIdAndAddressId_ShouldReturnUpdatedObject() {
         Address expected = new Address().setAddress("testSave").setId(1L);
 
         when(addressRepositoryMocked
@@ -132,6 +132,28 @@ public class AddressControllerTestMock {
 
         Address actual = addressService.updateAddressByCustomerId(1L, expected);
         Assert.assertEquals(actual.getAddress(), expected.getAddress());
+    }
+
+    @Test
+    public void UpdateAddressByCustomerId_WrongCustomerId_ShouldReturnNull() {
+        Address given = new Address().setAddress("test alley").setId(1L);
+
+        when(addressRepositoryMocked
+                .save(Mockito.any(Address.class)))
+                .thenReturn(Mockito.any(Address.class));
+
+        Address actual = addressService.updateAddressByCustomerId(0L, given);
+        Assert.assertNull(actual);
+    }
+
+    @Test
+    public void UpdateAddressByCustomerId_EmptyObject_ShouldReturnNull() {
+        when(addressRepositoryMocked
+                .save(Mockito.any(Address.class)))
+                .thenReturn(Mockito.any(Address.class));
+
+        Address actual = addressService.updateAddressByCustomerId(1L, new Address());
+        Assert.assertNull(actual);
     }
 
 

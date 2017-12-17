@@ -1,4 +1,4 @@
-package org.michal.RestAssuredTests;
+package org.michal.ControllerTests_RestAssured;
 
 import com.jayway.restassured.http.ContentType;
 import com.jayway.restassured.response.Response;
@@ -14,7 +14,7 @@ import static com.jayway.restassured.RestAssured.given;
 /**
  * Created by michal on 13.12.2017.
  */
-public class EmailAddressResponseTest extends FunctionalTest {
+public class EmailControllerTest extends FunctionalTest {
 
     @Test
     public void PostEmail_CustomerIdInPathAndEmailInBody_201CreatedAndNewEmailRetrieved(){

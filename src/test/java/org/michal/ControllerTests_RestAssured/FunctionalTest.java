@@ -1,4 +1,4 @@
-package org.michal.RestAssuredTests;
+package org.michal.ControllerTests_RestAssured;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.CollectionType;
@@ -9,7 +9,6 @@ import com.jayway.restassured.response.Response;
 import org.junit.After;
 import org.junit.Before;
 import org.michal.org.michal.webservice.model.*;
-import org.michal.org.michal.webservice.web.api.CustomerController;
 import org.testng.annotations.BeforeTest;
 
 import java.io.IOException;

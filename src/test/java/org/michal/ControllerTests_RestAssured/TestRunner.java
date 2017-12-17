@@ -1,4 +1,4 @@
-package org.michal.RestAssuredTests;
+package org.michal.ControllerTests_RestAssured;
 
 import org.junit.runner.JUnitCore;
 import org.junit.runner.Result;
